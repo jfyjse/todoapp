@@ -15,7 +15,6 @@ export class ApiService {
     constructor(private http: HttpClient) {}
 
      url = "http://localhost:8000";
-    //  url1 = "196.168.105://https/quicksome"
 
     getData():Observable<TodoList>   {
      

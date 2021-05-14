@@ -25,10 +25,8 @@ export class MainComponent implements OnInit {
 
   // done = ['Get up', 'Brush teeth', 'Take a shower', 'Check e-mail', 'Walk dog'];
 
-  
-
   todo: any = [];
-  done:any =[];
+  done: any = [];
   commonData: any;
 
   count = 0;
@@ -42,10 +40,8 @@ export class MainComponent implements OnInit {
   ];
 
   error = {
-    message:''
-  }
-
-  
+    message: '',
+  };
 
   getData() {
     this.apiservice.getData().subscribe(
@@ -56,62 +52,56 @@ export class MainComponent implements OnInit {
           // console.log('datas',this.todo);
           this.commonData = res.result.todoData;
           this.ConvertTwoArray();
-          
         }
       },
       (err) => {
         console.log('api error:', err);
       }
     );
-
   }
 
   ConvertTwoArray() {
-    for(let i=0; i<=this.commonData.length; i++)  {
-      this.todo = this.commonData.filter((data:any) =>  {
+    for (let i = 0; i <= this.commonData.length; i++) {
+      this.todo = this.commonData.filter((data: any) => {
         return data.doneStatus == false;
-      })
+      });
     }
-    
-    console.log('totdo array',this.todo);
-   
 
-    for(let i=0; i<=this.commonData.length; i++)  {
-      this.done = this.commonData.filter((data:any) =>  {
+    console.log('totdo array', this.todo);
+
+    for (let i = 0; i <= this.commonData.length; i++) {
+      this.done = this.commonData.filter((data: any) => {
         return data.doneStatus == true;
-      })
+      });
     }
 
     // this.getData()
   }
 
-  
-
-
   addbtn(data: any) {
-    
     let doneStatus = this.todo;
 
     let val = data.value;
     console.log(val);
     const datt = {
-      idd: '1',
+      idd: '0',
       data: val,
       order: '0',
       doneStatus: false,
     };
 
-    this.apiservice.addNew(datt).subscribe((res:any) => {
-      if(res) {
-        this.todo.push(val);
+    this.apiservice.addNew(datt).subscribe(
+      (res: any) => {
+        if (res) {
+          // this.todo.push(val);
+          this.getData();
+        }
+      },
+      (err) => {
+        console.log('api error', err);
+        this.error.message = err.error.message;
       }
-
-    },(err) =>  {
-       console.log('api error',err);
-       this.error.message = err.error.message;
-    });
-
-    
+    );
 
     // return this.http.post('http://localhost:8000/addata', datt).subscribe(
     //   (o: any) => {
