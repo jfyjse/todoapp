@@ -1,0 +1,50 @@
+<div style="background-color: azure;" class="container">
+
+<div class="container">
+
+    <h1 style="font-size: xx-large; margin-top: 1%;">ToDo List</h1>
+
+    <div>
+        <h1><input #addval type="text" /> <button type="submit" class="button" style="margin-left: 1%;"
+                (click)="addbtn(addval)"> + </button> </h1>
+    </div>
+
+</div>
+
+<div class="container box">
+
+
+
+
+    <div cdkDropListGroup>
+        <div class="example-container">
+            <h1>To do</h1>
+
+            <div cdkDropList [cdkDropListData]="todo" class="example-list" (cdkDropListDropped)="drop($event)">
+                <div class="example-box" *ngFor="let item of todo" cdkDrag>{{item.data}}</div>
+            </div>
+        </div>
+
+        <div class="example-container">
+            <h1>Done</h1>
+
+            <div cdkDropList [cdkDropListData]="done" class="example-list" (cdkDropListDropped)="drop($event)">
+                <div class="example-box" *ngFor="let item of done" cdkDrag>{{item.data}}</div>
+            </div>
+          
+        </div>
+        <!-- <div *ngFor='let item of datas'>
+            <ul>
+                <li>
+                    {{item.data}}
+                </li>
+            </ul>
+        </div> -->
+    </div>
+ 
+    <p style="color: red;" *ngIf="error">{{error.message}}</p>
+
+
+</div>
+
+</div>
