@@ -8,6 +8,7 @@ import {
 
 import { TodoList } from './todo.model';
 import { ApiService } from './api.service';
+import { discardPeriodicTasks } from '@angular/core/testing';
 
 @Component({
   selector: 'app-main',
@@ -79,30 +80,36 @@ export class MainComponent implements OnInit {
   }
 
   addbtn(data: any) {
-    let doneStatus = this.todo;
+  
 
     let val = data.value;
-    console.log(val);
-    const datt = {
-      idd: '0',
-      data: val,
-      order: '0',
-      doneStatus: false,
-    };
-
-    this.apiservice.addNew(datt).subscribe(
-      (res: any) => {
-        if (res) {
-          // this.todo.push(val);
-          this.getData();
+    if(val!=""){
+      const datt = {
+        idd: '0',
+        data: val,
+        order: '0',
+        doneStatus: false,
+      };
+  
+      this.apiservice.addNew(datt).subscribe(
+        (res: any) => {
+          if (res) {
+            // this.todo.push(val);
+            this.getData();
+          }
+        },
+        (err) => {
+          console.log('api error', err);
+          this.error.message = err.error.message;
         }
-      },
-      (err) => {
-        console.log('api error', err);
-        this.error.message = err.error.message;
-      }
-    );
+      );
+  
 
+    }
+    else{alert("null data no accepted");
+    }
+    // console.log(val);
+   
     // return this.http.post('http://localhost:8000/addata', datt).subscribe(
     //   (o: any) => {
     //     if (o) {
@@ -117,22 +124,84 @@ export class MainComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<string[]>) {
+    console.log('event',event);
+    
     if (event.previousContainer === event.container) {
-      console.log(event.container.data);
+      // console.log(event.container.data);
       moveItemInArray(
         event.container.data,
         event.previousIndex,
         event.currentIndex
-      );
-      console.log(event.container.data);
+      ); {
+        
+        
+      }
+      // console.log(event.container.data);
     } else {
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
-        event.currentIndex
-      );
-      console.log(event.container.data);
+        event.currentIndex);
+        {
+          this.update(event.container.data,event.currentIndex)
+        }
+        // this.update(event.container.data,event.currentIndex)
+              
+
+      
+      // console.log(event.currentIndex);
+      // console.log(event.container.data);
+      
     }
   }
+
+  update(data:any[],index:any){
+  
+   let ndata;
+   
+   for(let i=0; i<=data.length; i++)  {
+     
+    if(data[index]){
+
+      ndata=data[index];
+
+    }
+    
+    
+  }
+  console.log("new data",ndata);
+
+  this.apiservice.update(ndata._id)
+  .subscribe((res:any) => {
+     if(res)  {
+       this.getData();
+     }
+  },(err) =>  {
+    console.log('api update error',err);
+    
+  })
+
+  
+
+  
+}   
+     
+
+delete(id:string){
+  this.apiservice.deleteItem(id)
+  .subscribe((del:any)=>{
+    if(del){
+      this.getData()
+
+    }
+  },(err)=>{
+    console.log("api del err"),err;
+    
+  })
+
+}    
+
+
+
 }

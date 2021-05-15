@@ -25,4 +25,15 @@ export class ApiService {
      console.log('datt',data);
      return this.http.post(this.url + '/addata',data)
     }
+
+ update(id:string){
+   console.log(id);
+   
+   return this.http.get(this.url+`/update/${id}`)
+ }
+
+ deleteItem(id:string){
+   return this.http.delete(this.url+`/delete/${id}`)
+ }
+
 }

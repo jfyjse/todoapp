@@ -1,12 +1,19 @@
-<div style="background-color: rgba(159, 231, 231, 0.575);" class="container">
+
+<div class="container">
+
+
+
+
+
+<div style="background-color: rgba(159, 231, 231, 0.575); width: 100%;" >
 
 <div style="background-color: rgba(28, 190, 28, 0.582); height: 170px;" class="container">
 
     <h1 style="font-size: xx-large; font-weight: 400;padding-top: 23px;">ToDo List</h1>
 
     <div>
-        <h1><input #addval type="text" /> <button type="submit" class="button" style="margin-left: 1%;"
-                (click)="addbtn(addval); addval.value=''" > + </button> </h1>
+        <h1><input #addval type="text" class="form-control-m" /> <button type="submit" class="btn btn-info" style="margin-left: 1%;"
+                (click)="addbtn(addval); addval.value=''" > Add Task </button> </h1>
     </div>
 
 </div>
@@ -31,7 +38,9 @@
             <h1 style="padding-top: 17px;">Done</h1>
 
             <div cdkDropList [cdkDropListData]="done" class="example-list" (cdkDropListDropped)="drop($event)">
-                <div class="example-box" *ngFor="let item of done" cdkDrag>{{item.data}}</div>
+                <div class="example-box" *ngFor="let item of done" cdkDrag>{{item.data}}
+                    <button class="btn btn-danger " style="cursor: pointer;" (click)='delete(item._id)'>delete</button>
+                </div>
             </div>
           
         </div>
@@ -50,4 +59,5 @@
 </div>
 <p style="color: red;" *ngIf="error">{{error.message}}</p>
 
+</div>
 </div>
